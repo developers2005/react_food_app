@@ -1,41 +1,70 @@
 import React from "react";
 import { MdShoppingCart } from "react-icons/md";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useRef } from "react";
+import NotFound from "./img/NotFound.svg"
 
-const RowContainer = ({ flag,data }) => {
-    console.log(data);
+const RowContainer = ({ flag, data, scrollValue }) => {
+  const rowContainer = useRef();
+  useEffect(() => {
+    rowContainer.current.scrollLeft += scrollValue;
+  }, [scrollValue]);
   return (
     <div
-      className={`w-full my-12 /* bg-rowBg*/ ${
-        flag ? "overflow-x-scroll" : "overflow-x-hidden"
+      ref={rowContainer}
+      className={`w-full flex items-center gap-3 my-12 scroll-smooth ${
+        flag
+          ? "overflow-x-scroll scrollbar-none"
+          : "overflow-x-hidden flex-wrap justify-center"
       }`}
     >
-      <div className="w-300 md:w-340 h-auto my-12 bg-cardOverly rounded-lg p-2  backdrop-blur-lg hover:drop-shadow-lg">
-        <div className="w-full flex items-center justify-between">
-          <motion.img whileHover={{scale:1.2}}
-            src="https://firebasestorage.googleapis.com/v0/b/reactfooddeliver.appspot.com/o/Images%2F1657517176827-smartphone-mobile-device-application-programming-interface-icon-hand-and-mobile-phone-elements-55eb57cbaf7642c000154da9ef019560.png?alt=media&token=f182945e-656a-48e0-97c6-a5b1ebf12a9a"
-            alt=""
-            className="w-40 -mt-8 drop-shadow-2xl"
-          />
-          <motion.div
-          whileTap={{scale:0.75}}
-            className="w-8 h-8 rounded-full bg-red-600
-           flex items-center justify-center 
-           cursor-pointer hover:shadow-md"
+      {data && data.length>0 ?
+        data.map((item) => (
+          <div
+            key={item.id}
+            className="w-275 min-w-[275px] md:w-300 md:min-w-[300px] h-[300px] my-12
+             bg-cardOverly rounded-lg p-2  backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-between"
           >
-            <MdShoppingCart className="text-white" />
-          </motion.div>
-        </div>
-        <div className="w-full flex flex-col gap-4 items-end justify-end ">
-            <p className="text-textColor font-semibold md:text-lg text-base"> aasdasdasd</p>
-            <p className="mt-1 text-sm text-gray-500">45 Calories</p>
-            <div className="flex items-center gap-8">
-                <p className="text-lg text-headingColor font-semibold">
-                    <span className="text-sm text-red-500">$</span> 5.25
-                </p>
+            <div className="w-full flex items-center justify-between">
+              <motion.div className="w-40 h-40 -mt-8 drop-shadow-2xl"> 
+                <img
+                  whileHover={{ scale: 1.2 }}
+                  src={item?.imageUrl}
+                  alt=""
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
+
+              <motion.div 
+                whileTap={{ scale: 0.75 }}
+                className="w-8 h-8 rounded-full bg-red-600
+            flex items-center justify-center 
+            cursor-pointer hover:shadow-md"
+              >
+                <MdShoppingCart className="text-white" />
+              </motion.div>
             </div>
-        </div>
-      </div>
+            <div className="w-full flex flex-col gap-4 items-end justify-end ">
+              <p className="text-textColor font-semibold md:text-lg text-base">
+                {item?.Title}
+              </p>
+              <p className="mt-1 text-sm text-gray-500">
+                {" "}
+                {item?.Calories} Calories
+              </p>
+              <div className="flex items-center gap-8">
+                <p className="text-lg text-headingColor font-semibold">
+                  <span className="text-sm text-red-500">$</span> {item?.Price}
+                </p>
+              </div>
+            </div>
+          </div>
+        )) :  <div className="w-full flex flex-col items-center justify-center">
+          <img src={NotFound} alt="" className="h-340" />
+          <p className="text-xl text-headingColor font-semibold my-2">Items not available</p>
+        </div> }
+      
     </div>
   );
 };

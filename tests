@@ -41,4 +41,12 @@ for root path prob -
     "start": "react-app-rewired start",
 
 
-4:22:53
+for scrollbar - 
+npm install --save-dev tailwind-scrollbar
+tailwind config add this  plugins: [
+    require('tailwind-scrollbar'),
+  ],
+
+
+
+6:25:23
