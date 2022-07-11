@@ -1,0 +1,44 @@
+https://console.firebase.google.com/u/0/project/reactfooddeliver/firestore
+1. create database
+2. create in production 
+3. go to rules  -  allow read, write: if true;  publish
+
+4. got real time db  and create - all default
+5. got to rules -     ".read": false, ".write": true
+
+6. got to storage - images folder - rules :  allow read, write: if true;
+
+7. got to project settings from project overview
+8. create new web app 
+9. npm install firebase
+  databaseURL: "https://reactfooddeliver-default-rtdb.firebaseio.com",
+  projectId: "reactfooddeliver",
+  storageBucket: "reactfooddeliver.appspot.com",
+
+10. install tailwind inteliggence extension
+
+11. tailwindcss  - https://tailwindcss.com/docs/guides/create-react-app
+  - npm install -D tailwindcss postcss autoprefixer
+  - npx tailwindcss init -p
+
+12. tailwind config -"./src/**/*.{js,jsx,ts,tsx}", add this
+
+follow all instrcution of tailwindcss
+
+13. changes in index.css
+
+14. npm add firebase framer-motion react-icons react-router-dom
+
+15.  google authentication in firebase added .env and firebas.config.js used in header.jsx
+client_secrate - 954449726590-f5spkdj2emvmjq6ht7c1oluk8tv5fkfn.apps.googleusercontent.com
+client_id - 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
+
+for root path prob - 
+1. npm i --save-dev react-app-rewired customize-cra
+2. add config-overrieds.js
+3. in package.js  
+    "start": "react-scripts start",
+    "start": "react-app-rewired start",
+
+
+4:22:53
