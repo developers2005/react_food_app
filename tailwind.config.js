@@ -54,6 +54,9 @@ module.exports = {
         lighttextGray: "#9ca0ab",
         rowBg: "rgba(255,131,0,0.09)",
         card: "rgba(255,255,255,0.8)",
+        cartBg: "#282a2c",
+        cartItem: "#2e3033",
+        cartTotal : "#343739"
       },
     },
   },

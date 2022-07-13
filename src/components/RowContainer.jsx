@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdShoppingCart } from "react-icons/md";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useRef } from "react";
-import NotFound from "./img/NotFound.svg"
+import NotFound from "./img/NotFound.svg";
+import { useStateValue } from "./context/StateProvider";
+import { actionType } from "./context/reducer";
+
 
 const RowContainer = ({ flag, data, scrollValue }) => {
   const rowContainer = useRef();
+  const [{ cartItems }, dispatch] = useStateValue();
+const [items, setItems] = useState([]);
+
+  const addToCart = () => {
+    dispatch({
+      type : actionType.SET_CARTITEMS,
+      cartItems : items,
+    })
+    localStorage.setItem("cartItems", JSON.stringify(items));
+  };
+  useEffect(()=>{
+    addToCart();
+  },[items]);
+  
   useEffect(() => {
     rowContainer.current.scrollLeft += scrollValue;
   }, [scrollValue]);
@@ -19,7 +36,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
           : "overflow-x-hidden flex-wrap justify-center"
       }`}
     >
-      {data && data.length>0 ?
+      {data && data.length > 0 ? (
         data.map((item) => (
           <div
             key={item.id}
@@ -27,7 +44,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
              bg-cardOverly rounded-lg p-2  backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-between"
           >
             <div className="w-full flex items-center justify-between">
-              <motion.div className="w-40 h-40 -mt-8 drop-shadow-2xl"> 
+              <motion.div className="w-40 h-40 -mt-8 drop-shadow-2xl">
                 <img
                   whileHover={{ scale: 1.2 }}
                   src={item?.imageUrl}
@@ -36,11 +53,12 @@ const RowContainer = ({ flag, data, scrollValue }) => {
                 />
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileTap={{ scale: 0.75 }}
                 className="w-8 h-8 rounded-full bg-red-600
-            flex items-center justify-center 
+              flex items-center justify-center 
             cursor-pointer hover:shadow-md"
+                onClick={() => setItems([...cartItems, item])}
               >
                 <MdShoppingCart className="text-white" />
               </motion.div>
@@ -60,11 +78,15 @@ const RowContainer = ({ flag, data, scrollValue }) => {
               </div>
             </div>
           </div>
-        )) :  <div className="w-full flex flex-col items-center justify-center">
+        ))
+      ) : (
+        <div className="w-full flex flex-col items-center justify-center">
           <img src={NotFound} alt="" className="h-340" />
-          <p className="text-xl text-headingColor font-semibold my-2">Items not available</p>
-        </div> }
-      
+          <p className="text-xl text-headingColor font-semibold my-2">
+            Items not available
+          </p>
+        </div>
+      )}
     </div>
   );
 };
